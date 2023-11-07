@@ -1,8 +1,14 @@
+import 'package:be_aydi_masria/cubit/cubit.dart';
+import 'package:be_aydi_masria/cubit/state.dart';
+import 'package:be_aydi_masria/shared/bloc_observer.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'layouts/homepage.dart';
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
 
@@ -12,13 +18,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomePage(),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => MasryCubit()..createdatabase(),),
+        ],
+        child: BlocConsumer<MasryCubit,MasryStates>(
+            listener: (context,state){},
+            builder: (context,state){
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                ),
+                home: HomePage(),
+              );
+            },
+        ),
     );
   }
 }

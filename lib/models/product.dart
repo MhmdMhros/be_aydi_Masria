@@ -1,11 +1,11 @@
 class ProductModel
 {
-  String? name;
   String? barcode;
+  String? name;
   ProductModel({
-   this.name,
-   this.barcode,
+    this.barcode,
+    this.name,
 });
-  
+
 
 }
