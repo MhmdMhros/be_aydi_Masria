@@ -101,6 +101,7 @@ class _HomePageState extends State<HomePage> {
                           size: 30.0,
                           color: Colors.white,
                         ),
+
                         onPressed: () async {
                           var res = await Navigator.push(
                               context,
@@ -109,8 +110,18 @@ class _HomePageState extends State<HomePage> {
                                     const SimpleBarcodeScannerPage(),
                               ));
                           setState(() {
+                            isWrite = true;
+                            if (res == "") {
+                              isWrite = false;
+                            }
                             if (res is String) {
                               barcode_controller.text = res;
+                              if (cubit.Products.containsKey(
+                                  barcode_controller.text)) {
+                                isBarcode = true;
+                              } else {
+                                isBarcode = false;
+                              }
                             }
                           });
                         },
