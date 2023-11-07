@@ -43,8 +43,8 @@ class MasryCubit extends Cubit<MasryStates> {
       txn.rawInsert('INSERT INTO products (barcode,name) VALUES ("$barcode","$name")').then((value){
         print('$value insert successfully!');
         ShowToastMessage(message: "Added Successfully", state: ToastStates.SUCCESS);
-        emit(MasryInsertDatabaseState());
         GetProduct(db);
+        emit(MasryInsertDatabaseState());
       }).catchError((error){
         ShowToastMessage(message: "Added Failed", state: ToastStates.ERROR);
         print('error when insert raw ${error.toString()}');
@@ -71,21 +71,30 @@ class MasryCubit extends Cubit<MasryStates> {
     db.rawUpdate(
         'UPDATE products SET name = ? WHERE barcode = ?',
         ['$name', barcode]).then((value) {
+
+    }).then((value){
+      ShowToastMessage(message: "Updated Successfully", state: ToastStates.SUCCESS);
       GetProduct(db);
       emit(MasryUpdateDatabaseState());
+    }).catchError((error){
+      ShowToastMessage(message: "Updated Failed", state: ToastStates.ERROR);
     });
   }
   void DeleteDatabase({
     required String barcode,
   }) async {
-    db.rawDelete("DELETE FROM products").then((value){
+    // db.rawDelete("DELETE FROM products").then((value){
+    //   GetProduct(db);
+    //   emit(MasryDeleteDatabaseState());
+    // }).catchError((error){
+    // });
+    db.rawDelete('DELETE FROM products WHERE barcode = ?',[barcode]).then((value){
+    }).then((value){
+      ShowToastMessage(message: "Deleted Successfully", state: ToastStates.SUCCESS);
       GetProduct(db);
       emit(MasryDeleteDatabaseState());
     }).catchError((error){
+      ShowToastMessage(message: "Deleted Failed", state: ToastStates.ERROR);
     });
-    // db.rawDelete('DELETE FROM products WHERE barcode = ?',[barcode]).then((value){
-    //   GetProduct(db);
-    //   emit(MasryDeleteDatabaseState());
-    // });
   }
 }

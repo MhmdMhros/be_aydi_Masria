@@ -18,7 +18,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController barcode_controller = TextEditingController();
   bool isBarcode = false;
+  bool isBarcode_scanner = false;
   bool isWrite = false;
+  String barcode_scanner = "";
 
   @override
   Widget build(BuildContext context) {
@@ -115,11 +117,13 @@ class _HomePageState extends State<HomePage> {
                               isWrite = false;
                             }
                             if (res is String) {
-                              barcode_controller.text = res;
+                              barcode_scanner = res;
                               if (cubit.Products.containsKey(
-                                  barcode_controller.text)) {
+                                  barcode_scanner)) {
+                                isBarcode_scanner = true;
                                 isBarcode = true;
                               } else {
+                                isBarcode_scanner = true;
                                 isBarcode = false;
                               }
                             }
@@ -136,15 +140,30 @@ class _HomePageState extends State<HomePage> {
                           child: SingleChildScrollView(
                             child: isBarcode
                                 ? Center(
-                                    child: Container(
-                                      child: Text(
-                                        '${cubit.Products[barcode_controller.text]?["name"]}',
-                                        style: TextStyle(
-                                          fontSize: 50.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.red,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          child: Text(
+                                            'name${isBarcode_scanner ? {cubit.Products[barcode_scanner]?["name"]} : {cubit.Products[barcode_controller.text]?["name"]}}',
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        SizedBox(height: 10.0,),
+                                        Container(
+                                          child: Text(
+                                            'barcode${isBarcode_scanner ? {cubit.Products[barcode_scanner]?["barcode"]} : {cubit.Products[barcode_controller.text]?["barcode"]}}',
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   )
                                 : Center(
@@ -162,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                           child: Text(
                             'Search or Scan barcode',
                             style:
-                                TextStyle(fontSize: 30.0, color: Colors.grey),
+                                TextStyle(fontSize: 25.0, color: Colors.grey),
                           ),
                         ),
                 ),

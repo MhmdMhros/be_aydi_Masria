@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:be_aydi_masria/cubit/cubit.dart';
 import 'package:be_aydi_masria/cubit/state.dart';
 import 'package:be_aydi_masria/layouts/homepage.dart';
@@ -175,7 +177,7 @@ class _AdminProductState extends State<AdminProduct> {
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.red,
+                                  color: Colors.green,
                                 ),
                                 child: MaterialButton(
                                   onPressed: () {
@@ -191,7 +193,69 @@ class _AdminProductState extends State<AdminProduct> {
                                     width: double.infinity,
                                     child: Center(
                                       child: Text(
-                                        'Add',
+                                        'Add Product',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.yellow,
+                                ),
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (product_formKey.currentState
+                                          ?.validate() ==
+                                          true) {
+                                        cubit.UpdateDatabase(barcode: bar_controller.text,name: name_controller.text,);
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: Text(
+                                        'Update Product',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                ),
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (product_formKey.currentState
+                                          ?.validate() ==
+                                          true) {
+                                        cubit.DeleteDatabase(barcode: bar_controller.text);
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: Text(
+                                        'Delete Product',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20.0,
