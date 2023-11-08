@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
+          ),``
           body: Container(
             color: Color(0xFF121212),
             child: Padding(
