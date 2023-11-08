@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unnecessary_import
+
 import 'package:be_aydi_masria/cubit/cubit.dart';
 import 'package:be_aydi_masria/cubit/state.dart';
 import 'package:be_aydi_masria/shared/bloc_observer.dart';

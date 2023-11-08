@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, avoid_unnecessary_containers, constant_identifier_names, prefer_const_literals_to_create_immutables
 
 import 'package:be_aydi_masria/cubit/cubit.dart';
 import 'package:be_aydi_masria/cubit/state.dart';
@@ -30,162 +30,279 @@ class _HomePageState extends State<HomePage> {
         var cubit = MasryCubit.get(context);
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.red,
+            backgroundColor: Color(0xFF212121),
             title: Text(
               'بأيدي مصرية',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 30,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          body: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        controller: barcode_controller,
-                        onFieldSubmitted: (value) {
-                          setState(() {
-                            if (value == "") {
-                              isWrite = false;
-                            }
-                            if (cubit.Products.containsKey(
-                                barcode_controller.text)) {
-                              isBarcode = true;
-                            } else {
-                              isBarcode = false;
-                            }
-                          });
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            if (value == "") {
-                              isWrite = false;
-                            } else {
-                              isWrite = true;
-                            }
-                            if (cubit.Products.containsKey(
-                                barcode_controller.text)) {
-                              isBarcode = true;
-                            } else {
-                              isBarcode = false;
-                            }
-                          });
-                        },
-                        decoration: InputDecoration(
-                          labelText: "Search by barcode of item",
-                          prefixIcon: Icon(
-                            Icons.search,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              16.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    CircleAvatar(
-                      radius: 25.0,
-                      backgroundColor: Colors.black,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.camera_alt,
-                          size: 30.0,
-                          color: Colors.white,
-                        ),
-
-                        onPressed: () async {
-                          var res = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const SimpleBarcodeScannerPage(),
-                              ));
-                          setState(() {
-                            isWrite = true;
-                            if (res == "") {
-                              isWrite = false;
-                            }
-                            if (res is String) {
-                              barcode_scanner = res;
+          body: Container(
+            color: Color(0xFF121212),
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: barcode_controller,
+                          onFieldSubmitted: (value) {
+                            setState(() {
+                              if (value == "") {
+                                isWrite = false;
+                              }
                               if (cubit.Products.containsKey(
-                                  barcode_scanner)) {
-                                isBarcode_scanner = true;
+                                  barcode_controller.text)) {
                                 isBarcode = true;
                               } else {
-                                isBarcode_scanner = true;
                                 isBarcode = false;
                               }
-                            }
-                          });
-                        },
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              if (value == "") {
+                                isWrite = false;
+                              } else {
+                                isWrite = true;
+                              }
+                              if (cubit.Products.containsKey(
+                                  barcode_controller.text)) {
+                                isBarcode = true;
+                              } else {
+                                isBarcode = false;
+                              }
+                            });
+                          },
+                          decoration: InputDecoration(
+                            labelText: "أدخل باركود المنتج",
+                            labelStyle: TextStyle(
+                              color: Colors.white70,
+                            ),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: Colors.white70,
+                            ),
+                            fillColor: Color(0xFF303030),
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.white54, width: 1.0),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xFF2196F3), width: 1.0),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                          ),
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 15.0),
-                Expanded(
-                  child: isWrite
-                      ? Center(
-                          child: SingleChildScrollView(
-                            child: isBarcode
-                                ? Center(
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            'name${isBarcode_scanner ? {cubit.Products[barcode_scanner]?["name"]} : {cubit.Products[barcode_controller.text]?["name"]}}',
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold,
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      CircleAvatar(
+                        radius: 25.0,
+                        backgroundColor: Color(0xFF2196F3),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.camera_alt,
+                            size: 30.0,
+                            color: Colors.white,
+                          ),
+                          onPressed: () async {
+                            var res = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const SimpleBarcodeScannerPage(),
+                                ));
+                            setState(() {
+                              isWrite = true;
+                              if (res == "") {
+                                isWrite = false;
+                              }
+                              if (res is String) {
+                                barcode_scanner = res;
+                                if (cubit.Products.containsKey(
+                                    barcode_scanner)) {
+                                  isBarcode_scanner = true;
+                                  isBarcode = true;
+                                } else {
+                                  isBarcode_scanner = true;
+                                  isBarcode = false;
+                                }
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15.0),
+                  Expanded(
+                    child: isWrite
+                        ? Center(
+                            child: SingleChildScrollView(
+                              child: isBarcode
+                                  ? Center(
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 300.0,
+                                        padding: EdgeInsets.all(10.0),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFF303030),
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                          border: Border.all(
+                                            color: Colors.blue,
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: double.infinity,
+                                              height: 100.0,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[800],
+                                                borderRadius:
+                                                    BorderRadius.circular(16.0),
+                                                border: Border.all(
+                                                  color: Colors.blue,
+                                                  width: 0.50,
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "رية",
+                                                      style: TextStyle(
+                                                        fontSize: 40,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "مص",
+                                                      style: TextStyle(
+                                                        fontSize: 40,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "بأيدي",
+                                                      style: TextStyle(
+                                                        fontSize: 40,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 40,
+                                            ),
+                                            Text(
+                                              'Name: ${isBarcode_scanner ? {
+                                                  cubit.Products[
+                                                      barcode_scanner]?["name"]
+                                                } : {
+                                                  cubit.Products[
+                                                      barcode_controller
+                                                          .text]?["name"]
+                                                }}',
+                                              style: TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Divider(
                                               color: Colors.red,
+                                              thickness: 1.0,
+                                              height: 15.0,
+                                              indent: 40,
+                                              endIndent: 40,
                                             ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10.0,),
-                                        Container(
-                                          child: Text(
-                                            'barcode${isBarcode_scanner ? {cubit.Products[barcode_scanner]?["barcode"]} : {cubit.Products[barcode_controller.text]?["barcode"]}}',
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold,
+                                            Divider(
+                                              color: Colors.white,
+                                              thickness: 1.0,
+                                              height: 5.0,
+                                              indent: 40,
+                                              endIndent: 40,
+                                            ),
+                                            Divider(
                                               color: Colors.black,
+                                              thickness: 1.0,
+                                              height: 15.0,
+                                              indent: 40,
+                                              endIndent: 40,
                                             ),
-                                          ),
+                                            Text(
+                                              'Barcode: ${isBarcode_scanner ? {
+                                                  cubit.Products[
+                                                          barcode_scanner]
+                                                      ?["barcode"]
+                                                } : {
+                                                  cubit.Products[
+                                                      barcode_controller
+                                                          .text]?["barcode"]
+                                                }}',
+                                              style: TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                : Center(
-                                    child: Text(
-                                      'Not found...',
-                                      style: TextStyle(
-                                        fontSize: 30.0,
-                                        color: Colors.grey,
+                                      ),
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        '!غير موجود ',
+                                        style: TextStyle(
+                                          fontSize: 30.0,
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                            ),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'أدخل باركود المنتج',
+                                style: TextStyle(
+                                    fontSize: 25.0, color: Colors.grey),
+                              ),
+                              Text(
+                                'أو',
+                                style: TextStyle(
+                                    fontSize: 25.0, color: Colors.grey),
+                              ),
+                              Text(
+                                'قم بقرائته بإستخدام الكاميرا',
+                                style: TextStyle(
+                                    fontSize: 25.0, color: Colors.grey),
+                              ),
+                            ],
                           ),
-                        )
-                      : Center(
-                          child: Text(
-                            'Search or Scan barcode',
-                            style:
-                                TextStyle(fontSize: 25.0, color: Colors.grey),
-                          ),
-                        ),
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
           floatingActionButton: FloatingActionButton(
@@ -197,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            backgroundColor: Colors.red,
+            backgroundColor: Color(0xFF2196F3),
             child: Icon(
               Icons.edit,
               size: 30.0,

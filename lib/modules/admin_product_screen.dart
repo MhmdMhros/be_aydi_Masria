@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, non_constant_identifier_names, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:be_aydi_masria/cubit/cubit.dart';
 import 'package:be_aydi_masria/cubit/state.dart';
@@ -19,30 +19,32 @@ class _AdminProductState extends State<AdminProduct> {
   TextEditingController password_controller = TextEditingController();
   TextEditingController name_controller = TextEditingController();
   TextEditingController bar_controller = TextEditingController();
-  bool pass_secure = false;
+  bool pass_secure = true;
   bool isPass = false;
   bool isWrite = false;
   var product_formKey = GlobalKey<FormState>();
   var pass_formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MasryCubit,MasryStates>(
-        listener: (context,state){},
-        builder: (context,state){
-          var cubit = MasryCubit.get(context);
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.red,
-              title: Text(
-                'Add Product',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
+    return BlocConsumer<MasryCubit, MasryStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = MasryCubit.get(context);
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Color(0xFF212121),
+            title: Text(
+              'أضف منتج',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            body: Padding(
+          ),
+          body: Container(
+            color: Color(0xFF121212),
+            child: Padding(
               padding: EdgeInsets.all(10.0),
               child: Column(
                 children: [
@@ -58,7 +60,7 @@ class _AdminProductState extends State<AdminProduct> {
                             setState(() {
                               isWrite = false;
                             });
-                            return 'password must not be empty';
+                            return 'من فضلك أدخل كلمة المرور';
                           }
                           return null;
                         },
@@ -66,35 +68,38 @@ class _AdminProductState extends State<AdminProduct> {
                           setState(() {
                             if (password_controller.text == "12345") {
                               isPass = true;
-                            }
-                            else{
+                            } else {
                               isPass = false;
                             }
-                            if (pass_formKey.currentState
-                                ?.validate() ==
-                                true) {
-                            }
+                            if (pass_formKey.currentState?.validate() ==
+                                true) {}
                           });
                         },
-                        onChanged: (value){
+                        onChanged: (value) {
                           setState(() {
                             isWrite = true;
                             if (password_controller.text == "12345") {
                               isPass = true;
-                            }
-                            else{
+                            } else {
                               isPass = false;
                             }
                           });
                         },
                         decoration: InputDecoration(
-                          labelText: "Enter password",
+                          labelText: "أدخل كلمة المرور",
+                          labelStyle: TextStyle(
+                            color: Colors.white70,
+                          ),
                           prefixIcon: Icon(
                             Icons.password,
+                            color: Colors.white70,
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              pass_secure ? Icons.visibility : Icons.visibility_off,
+                              pass_secure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.white70,
                             ),
                             onPressed: () {
                               setState(() {
@@ -102,189 +107,267 @@ class _AdminProductState extends State<AdminProduct> {
                               });
                             },
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              16.0,
-                            ),
+                          fillColor: Color(0xFF303030),
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.white54, width: 1.0),
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xFF2196F3), width: 1.0),
+                            borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
-                  SizedBox(height: 15.0,),
+                  SizedBox(
+                    height: 15.0,
+                  ),
                   Expanded(
                     child: isWrite
                         ? Center(
-                      child: SingleChildScrollView(
-                        child: isPass
-                            ? Form(
-                          key: product_formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Product',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 35.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              TextFormField(
-                                keyboardType: TextInputType.name,
-                                controller: name_controller,
-                                validator: (value) {
-                                  if (value?.isEmpty == true) {
-                                    return 'name must not be empty';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  labelText: "Product name",
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      16.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 12.0,
-                              ),
-                              TextFormField(
-                                keyboardType: TextInputType.number,
-                                controller: bar_controller,
-                                validator: (value) {
-                                  if (value?.isEmpty == true) {
-                                    return 'barcode must not be empty';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  labelText: "Product barcode",
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      16.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.0,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.green,
-                                ),
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (product_formKey.currentState
-                                          ?.validate() ==
-                                          true) {
-                                        cubit.InsertToDatabase(barcode: bar_controller.text,name: name_controller.text,);
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: Center(
-                                      child: Text(
-                                        'Add Product',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.0,
-                                        ),
+                            child: SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
+                              child: isPass
+                                  ? Form(
+                                      key: product_formKey,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'معلومات المنتج',
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 30.0,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          TextFormField(
+                                            keyboardType: TextInputType.text,
+                                            controller: name_controller,
+                                            validator: (value) {
+                                              if (value?.isEmpty == true) {
+                                                return 'من فضلك أدخل الإسم';
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                              labelText: "أسم المنتج",
+                                              labelStyle: TextStyle(
+                                                color: Colors.white70,
+                                              ),                                            
+                                              fillColor: Color(0xFF303030),
+                                              filled: true,
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.white54,
+                                                    width: 1.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(16.0),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFF2196F3),
+                                                    width: 2.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(16.0),
+                                              ),
+                                            ),
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            height: 12.0,
+                                          ),
+                                          TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            controller: bar_controller,
+                                            validator: (value) {
+                                              if (value?.isEmpty == true) {
+                                                return 'من فضلك أدخل الباركود';
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                              labelText: "باركود المنتج",
+                                              labelStyle: TextStyle(
+                                                color: Colors.white70,
+                                              ),
+                                              fillColor: Color(0xFF303030),
+                                              filled: true,
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.white54,
+                                                    width: 1.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(16.0),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFF2196F3),
+                                                    width: 2.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(16.0),
+                                              ),
+                                            ),
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            height: 20.0,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              border: Border.all(
+                                                color: Colors.red,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: MaterialButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (product_formKey
+                                                          .currentState
+                                                          ?.validate() ==
+                                                      true) {
+                                                    cubit.InsertToDatabase(
+                                                      barcode:
+                                                          bar_controller.text,
+                                                      name:
+                                                          name_controller.text,
+                                                    );
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Text(
+                                                    'أضف المنتج',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 22.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                color: Colors.white,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: MaterialButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (product_formKey
+                                                          .currentState
+                                                          ?.validate() ==
+                                                      true) {
+                                                    cubit.UpdateDatabase(
+                                                      barcode:
+                                                          bar_controller.text,
+                                                      name:
+                                                          name_controller.text,
+                                                    );
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Text(
+                                                    'تعديل المنتج',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 22.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              border: Border.all(
+                                                color: Colors.black,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: MaterialButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (product_formKey
+                                                          .currentState
+                                                          ?.validate() ==
+                                                      true) {
+                                                    cubit.DeleteDatabase(
+                                                        barcode: bar_controller
+                                                            .text);
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Text(
+                                                    'حذف المنتج',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 22.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.yellow,
-                                ),
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (product_formKey.currentState
-                                          ?.validate() ==
-                                          true) {
-                                        cubit.UpdateDatabase(barcode: bar_controller.text,name: name_controller.text,);
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: Center(
+                                    )
+                                  : Center(
                                       child: Text(
-                                        'Update Product',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.0,
-                                        ),
+                                      'كلمة مرور غير صحيحة',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 30.0,
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                ),
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (product_formKey.currentState
-                                          ?.validate() ==
-                                          true) {
-                                        cubit.DeleteDatabase(barcode: bar_controller.text);
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: Center(
-                                      child: Text(
-                                        'Delete Product',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                            : Center(
-                            child: Text(
-                              'Password is not correct',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 30.0,
-                              ),
-                            )),
-                      ),
-                    )
+                                    )),
+                            ),
+                          )
                         : Center(child: CircularProgressIndicator()),
                   ),
                 ],
               ),
             ),
-          );
-        },
+          ),
+        );
+      },
     );
   }
 }
