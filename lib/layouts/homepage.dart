@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),``
+          ),
           body: Container(
             color: Color(0xFF121212),
             child: Padding(
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   SizedBox(
-                      height: 15.0,
+                    height: 15.0,
                   ),
                   Expanded(
                     child: isWrite
@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                                   ? Center(
                                       child: Container(
                                         width: double.infinity,
-                                        height: 500.0,
+                                        height: 350.0,
                                         padding: EdgeInsets.all(10.0),
                                         decoration: BoxDecoration(
                                           color: Color(0xFF303030),
@@ -219,14 +219,10 @@ class _HomePageState extends State<HomePage> {
                                               height: 40,
                                             ),
                                             Text(
-                                              'Name: ${isBarcode_scanner ? {
+                                              'Name: ${isBarcode_scanner ? [
                                                   cubit.Products[
                                                       barcode_scanner]?["name"]
-                                                } : {
-                                                  cubit.Products[
-                                                      barcode_controller
-                                                          .text]?["name"]
-                                                }}',
+                                                ] : cubit.Products[barcode_controller.text]?["name"]}',
                                               style: TextStyle(
                                                 fontSize: 20.0,
                                                 color: Colors.white,
@@ -254,15 +250,11 @@ class _HomePageState extends State<HomePage> {
                                               endIndent: 40,
                                             ),
                                             Text(
-                                              'Barcode: ${isBarcode_scanner ? {
+                                              'Barcode: ${isBarcode_scanner ? [
                                                   cubit.Products[
                                                           barcode_scanner]
                                                       ?["barcode"]
-                                                } : {
-                                                  cubit.Products[
-                                                      barcode_controller
-                                                          .text]?["barcode"]
-                                                }}',
+                                                ] : cubit.Products[barcode_controller.text]?["barcode"]}',
                                               style: TextStyle(
                                                 fontSize: 20.0,
                                                 color: Colors.white,
@@ -284,8 +276,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                           )
                         : Center(
-                          child: SingleChildScrollView(
-                            child: Column(
+                            child: SingleChildScrollView(
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
@@ -305,8 +297,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
+                            ),
                           ),
-                        ),
                   ),
                 ],
               ),
