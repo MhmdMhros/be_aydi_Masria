@@ -146,16 +146,19 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 15.0),
+                  SizedBox(
+                      height: 15.0,
+                  ),
                   Expanded(
                     child: isWrite
                         ? Center(
                             child: SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
                               child: isBarcode
                                   ? Center(
                                       child: Container(
                                         width: double.infinity,
-                                        height: 300.0,
+                                        height: 500.0,
                                         padding: EdgeInsets.all(10.0),
                                         decoration: BoxDecoration(
                                           color: Color(0xFF303030),
@@ -280,26 +283,30 @@ class _HomePageState extends State<HomePage> {
                                     ),
                             ),
                           )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'أدخل باركود المنتج',
-                                style: TextStyle(
-                                    fontSize: 25.0, color: Colors.grey),
+                        : Center(
+                          child: SingleChildScrollView(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'أدخل باركود المنتج',
+                                    style: TextStyle(
+                                        fontSize: 25.0, color: Colors.grey),
+                                  ),
+                                  Text(
+                                    'أو',
+                                    style: TextStyle(
+                                        fontSize: 25.0, color: Colors.grey),
+                                  ),
+                                  Text(
+                                    'قم بقرائته بإستخدام الكاميرا',
+                                    style: TextStyle(
+                                        fontSize: 25.0, color: Colors.grey),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'أو',
-                                style: TextStyle(
-                                    fontSize: 25.0, color: Colors.grey),
-                              ),
-                              Text(
-                                'قم بقرائته بإستخدام الكاميرا',
-                                style: TextStyle(
-                                    fontSize: 25.0, color: Colors.grey),
-                              ),
-                            ],
                           ),
+                        ),
                   ),
                 ],
               ),
