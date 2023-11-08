@@ -24,6 +24,7 @@ class _AdminProductState extends State<AdminProduct> {
   bool isWrite = false;
   var product_formKey = GlobalKey<FormState>();
   var pass_formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MasryCubit, MasryStates>(
@@ -162,7 +163,7 @@ class _AdminProductState extends State<AdminProduct> {
                                               labelText: "أسم المنتج",
                                               labelStyle: TextStyle(
                                                 color: Colors.white70,
-                                              ),                                            
+                                              ),
                                               fillColor: Color(0xFF303030),
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
@@ -180,7 +181,8 @@ class _AdminProductState extends State<AdminProduct> {
                                                     BorderRadius.circular(16.0),
                                               ),
                                             ),
-                                            style: TextStyle(color: Colors.white),
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
                                           SizedBox(
                                             height: 12.0,
@@ -216,7 +218,8 @@ class _AdminProductState extends State<AdminProduct> {
                                                     BorderRadius.circular(16.0),
                                               ),
                                             ),
-                                            style: TextStyle(color: Colors.white),
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
                                           SizedBox(
                                             height: 20.0,
@@ -360,7 +363,15 @@ class _AdminProductState extends State<AdminProduct> {
                                     )),
                             ),
                           )
-                        : Center(child: CircularProgressIndicator()),
+                        : Center(
+                            child: SingleChildScrollView(
+                              child: Text(
+                                'أدخل كلمة المرور لإضافة منتج',
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.grey),
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),
