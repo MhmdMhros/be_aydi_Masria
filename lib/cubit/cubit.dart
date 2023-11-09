@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:be_aydi_masria/cubit/state.dart';
 import 'package:be_aydi_masria/layouts/homepage.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -9,12 +12,34 @@ class MasryCubit extends Cubit<MasryStates> {
   late Database db;
   Map<String, Map<String, dynamic>> Products = {};
 
+  Future<void> insertDataFromJSON(String jsonFileName) async {
+    // Read the JSON file
+    final jsonFile = await rootBundle.loadString('assets/files/$jsonFileName');
+    final jsonData = json.decode(jsonFile);
+    print(jsonData);
+    // Insert data into the database
+    await db.transaction((txn) async {
+      for (final product in jsonData) {
+        final barcode = product['barcode'] as String;
+        final name = product['name'] as String;
+
+        await txn.rawInsert(
+          'INSERT INTO products (barcode, name) VALUES ("$barcode","$name")',
+        ).then((value){
+          print("success");
+        }).catchError((error){
+          print("error");
+        });
+      }
+    });
+  }
+
   Future<void> createdatabase() async {
     // barcode String
     // name String
     await openDatabase(
       'masry.dp',
-      version: 1,
+      version: 2,
       onCreate: (db, version) {
         print('Database Created!');
         db.execute('CREATE TABLE products (barcode TEXT PRIMARY KEY, name TEXT)').then((value){
@@ -30,6 +55,8 @@ class MasryCubit extends Cubit<MasryStates> {
 
     ).then((value){
       db = value;
+      insertDataFromJSON('product.json');
+      GetProduct(db);
       emit(MasryCreateDatabaseState());
     });
   }
@@ -59,7 +86,7 @@ class MasryCubit extends Cubit<MasryStates> {
       value.forEach((element){
         Products[element["barcode"]] = element;
       });
-
+      print(Products);
       emit(MasryGetDatabaseState());
     });
   }

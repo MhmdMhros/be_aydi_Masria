@@ -129,14 +129,14 @@ class _HomePageState extends State<HomePage> {
                               if (res == "") {
                                 isWrite = false;
                               }
-                              if (res is String) {
+                              if (res is String && res != "") {
                                 barcode_scanner = res;
                                 if (cubit.Products.containsKey(
                                     barcode_scanner)) {
                                   isBarcode_scanner = true;
                                   isBarcode = true;
                                 } else {
-                                  isBarcode_scanner = true;
+                                  isBarcode_scanner = false;
                                   isBarcode = false;
                                 }
                               }
@@ -219,16 +219,9 @@ class _HomePageState extends State<HomePage> {
                                               height: 40,
                                             ),
                                             Text(
-                                              'Name: ${isBarcode_scanner ? {
-                                                  cubit.Products[
-                                                      barcode_scanner]?["name"]
-                                                } : {
-                                                  cubit.Products[
-                                                      barcode_controller
-                                                          .text]?["name"]
-                                                }}',
+                                              'Name: ${isBarcode_scanner ? [cubit.Products[barcode_scanner]?["name"]] : cubit.Products[barcode_controller.text]?["name"]}',
                                               style: TextStyle(
-                                                fontSize: 20.0,
+                                                fontSize: 15.0,
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -254,17 +247,9 @@ class _HomePageState extends State<HomePage> {
                                               endIndent: 40,
                                             ),
                                             Text(
-                                              'Barcode: ${isBarcode_scanner ? {
-                                                  cubit.Products[
-                                                          barcode_scanner]
-                                                      ?["barcode"]
-                                                } : {
-                                                  cubit.Products[
-                                                      barcode_controller
-                                                          .text]?["barcode"]
-                                                }}',
+                                              'Barcode: ${isBarcode_scanner ? [cubit.Products[barcode_scanner]?["barcode"]] : cubit.Products[barcode_controller.text]?["barcode"]}',
                                               style: TextStyle(
-                                                fontSize: 20.0,
+                                                fontSize: 15.0,
                                                 color: Colors.white,
                                               ),
                                             ),
