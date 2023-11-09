@@ -129,14 +129,14 @@ class _HomePageState extends State<HomePage> {
                               if (res == "") {
                                 isWrite = false;
                               }
-                              if (res is String) {
+                              if (res is String && res != "") {
                                 barcode_scanner = res;
                                 if (cubit.Products.containsKey(
                                     barcode_scanner)) {
                                   isBarcode_scanner = true;
                                   isBarcode = true;
                                 } else {
-                                  isBarcode_scanner = true;
+                                  isBarcode_scanner = false;
                                   isBarcode = false;
                                 }
                               }
@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                                                       barcode_scanner]?["name"]
                                                 ] : cubit.Products[barcode_controller.text]?["name"]}',
                                               style: TextStyle(
-                                                fontSize: 20.0,
+                                                fontSize: 15.0,
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                                                       ?["barcode"]
                                                 ] : cubit.Products[barcode_controller.text]?["barcode"]}',
                                               style: TextStyle(
-                                                fontSize: 20.0,
+                                                fontSize: 15.0,
                                                 color: Colors.white,
                                               ),
                                             ),
