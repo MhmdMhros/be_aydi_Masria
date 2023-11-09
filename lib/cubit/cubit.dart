@@ -1,3 +1,7 @@
+// ignore_for_file: avoid_print, non_constant_identifier_names
+
+import 'dart:convert';
+
 import 'package:be_aydi_masria/cubit/state.dart';
 import 'package:be_aydi_masria/layouts/homepage.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
 
 class MasryCubit extends Cubit<MasryStates> {
-  MasryCubit() :super(MasryInitialState());
+  MasryCubit() : super(MasryInitialState());
   static MasryCubit get(context) => BlocProvider.of(context);
   late Database db;
   Map<String, Map<String, dynamic>> Products = {};
@@ -21,12 +25,17 @@ class MasryCubit extends Cubit<MasryStates> {
         final barcode = product['barcode'] as String;
         final name = product['name'] as String;
 
-        await txn.rawInsert(
+        await txn
+            .rawInsert(
           'INSERT INTO products (barcode, name) VALUES ("$barcode","$name")',
-        ).then((value){
+        )
+            .then((value) {
           print("success");
-        }).catchError((error){
+          emit(MasryInsertFromJsonSuccessState());
+          GetProduct(db);
+        }).catchError((error) {
           print("error");
+          emit(MasryInsertFromJsonErrorState());
         });
       }
     });
@@ -40,9 +49,12 @@ class MasryCubit extends Cubit<MasryStates> {
       version: 2,
       onCreate: (db, version) {
         print('Database Created!');
-        db.execute('CREATE TABLE products (barcode TEXT PRIMARY KEY, name TEXT)').then((value){
+        db
+            .execute(
+                'CREATE TABLE products (barcode TEXT PRIMARY KEY, name TEXT)')
+            .then((value) {
           print('Table Created!');
-        }).catchError((onError){
+        }).catchError((onError) {
           print('error when created table ${onError.toString()}');
         });
       },
@@ -50,11 +62,8 @@ class MasryCubit extends Cubit<MasryStates> {
         GetProduct(db);
         print('Database Opened!');
       },
-
-    ).then((value){
+    ).then((value) {
       db = value;
-      insertDataFromJSON('product.json');
-      GetProduct(db);
       emit(MasryCreateDatabaseState());
     });
   }
@@ -62,26 +71,29 @@ class MasryCubit extends Cubit<MasryStates> {
   Future InsertToDatabase({
     required String barcode,
     required String name,
-  })
-  async {
+  }) async {
     return await db.transaction((txn) async {
-      txn.rawInsert('INSERT INTO products (barcode,name) VALUES ("$barcode","$name")').then((value){
+      txn
+          .rawInsert(
+              'INSERT INTO products (barcode,name) VALUES ("$barcode","$name")')
+          .then((value) {
         print('$value insert successfully!');
-        ShowToastMessage(message: "Added Successfully", state: ToastStates.SUCCESS);
+        ShowToastMessage(
+            message: "Added Successfully", state: ToastStates.SUCCESS);
         GetProduct(db);
         emit(MasryInsertDatabaseState());
-      }).catchError((error){
+      }).catchError((error) {
         ShowToastMessage(message: "Added Failed", state: ToastStates.ERROR);
         print('error when insert raw ${error.toString()}');
       });
     });
   }
 
-  void GetProduct(db){
+  void GetProduct(db) {
     Products = {};
     emit(MasryGetDatabaseLoadingState());
-    db.rawQuery('SELECT * FROM products').then((value){
-      value.forEach((element){
+    db.rawQuery('SELECT * FROM products').then((value) {
+      value.forEach((element) {
         Products[element["barcode"]] = element;
       });
       print(Products);
@@ -93,18 +105,21 @@ class MasryCubit extends Cubit<MasryStates> {
     required String name,
     required String barcode,
   }) async {
-    db.rawUpdate(
-        'UPDATE products SET name = ? WHERE barcode = ?',
-        ['$name', barcode]).then((value) {
-
-    }).then((value){
-      ShowToastMessage(message: "Updated Successfully", state: ToastStates.SUCCESS);
-      GetProduct(db);
-      emit(MasryUpdateDatabaseState());
-    }).catchError((error){
-      ShowToastMessage(message: "Updated Failed", state: ToastStates.ERROR);
-    });
+    db
+        .rawUpdate('UPDATE products SET name = ? WHERE barcode = ?',
+            ['$name', barcode])
+        .then((value) {})
+        .then((value) {
+          ShowToastMessage(
+              message: "Updated Successfully", state: ToastStates.SUCCESS);
+          GetProduct(db);
+          emit(MasryUpdateDatabaseState());
+        })
+        .catchError((error) {
+          ShowToastMessage(message: "Updated Failed", state: ToastStates.ERROR);
+        });
   }
+
   void DeleteDatabase({
     required String barcode,
   }) async {
@@ -113,13 +128,17 @@ class MasryCubit extends Cubit<MasryStates> {
     //   emit(MasryDeleteDatabaseState());
     // }).catchError((error){
     // });
-    db.rawDelete('DELETE FROM products WHERE barcode = ?',[barcode]).then((value){
-    }).then((value){
-      ShowToastMessage(message: "Deleted Successfully", state: ToastStates.SUCCESS);
-      GetProduct(db);
-      emit(MasryDeleteDatabaseState());
-    }).catchError((error){
-      ShowToastMessage(message: "Deleted Failed", state: ToastStates.ERROR);
-    });
+    db
+        .rawDelete('DELETE FROM products WHERE barcode = ?', [barcode])
+        .then((value) {})
+        .then((value) {
+          ShowToastMessage(
+              message: "Deleted Successfully", state: ToastStates.SUCCESS);
+          GetProduct(db);
+          emit(MasryDeleteDatabaseState());
+        })
+        .catchError((error) {
+          ShowToastMessage(message: "Deleted Failed", state: ToastStates.ERROR);
+        });
   }
 }

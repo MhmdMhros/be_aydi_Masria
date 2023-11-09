@@ -6,4 +6,5 @@ class MasryGetDatabaseState extends MasryStates{}
 class MasryGetDatabaseLoadingState extends MasryStates{}
 class MasryUpdateDatabaseState extends MasryStates{}
 class MasryDeleteDatabaseState extends MasryStates{}
-
+class MasryInsertFromJsonSuccessState extends MasryStates{}
+class MasryInsertFromJsonErrorState extends MasryStates{}

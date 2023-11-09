@@ -25,7 +25,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MasryCubit, MasryStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is MasryCreateDatabaseState)
+        {
+          MasryCubit.get(context).insertDataFromJSON('product.json');
+        }
+      },
       builder: (context, state) {
         var cubit = MasryCubit.get(context);
         return Scaffold(
