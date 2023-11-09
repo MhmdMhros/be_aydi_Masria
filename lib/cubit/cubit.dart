@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, avoid_print
+
 import 'package:be_aydi_masria/cubit/state.dart';
 import 'package:be_aydi_masria/layouts/homepage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
