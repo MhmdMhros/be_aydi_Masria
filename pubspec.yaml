@@ -62,7 +62,7 @@ dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
 
 flutter_icons:
-  image_path: "assets/images/Mohammed_Mahrous.jpg"
+  image_path: "assets/images/ic_launcher.jpg"
   android: true
   ios: true
 
