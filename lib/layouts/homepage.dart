@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const SimpleBarcodeScannerPage(),
+                                      SimpleBarcodeScannerPage(lineColor: colorToHex(Colors.blue),),
                                 ));
                             setState(() {
                               isWrite = true;
@@ -224,10 +224,7 @@ class _HomePageState extends State<HomePage> {
                                               height: 40,
                                             ),
                                             Text(
-                                              'Name: ${isBarcode_scanner ? [
-                                                  cubit.Products[
-                                                      barcode_scanner]?["name"]
-                                                ] : cubit.Products[barcode_controller.text]?["name"]}',
+                                              'Name: ${isBarcode_scanner ? cubit.Products[barcode_scanner]!["name"] : cubit.Products[barcode_controller.text]!["name"]}',
                                               style: TextStyle(
                                                 fontSize: 15.0,
                                                 color: Colors.white,
@@ -255,11 +252,7 @@ class _HomePageState extends State<HomePage> {
                                               endIndent: 40,
                                             ),
                                             Text(
-                                              'Barcode: ${isBarcode_scanner ? [
-                                                  cubit.Products[
-                                                          barcode_scanner]
-                                                      ?["barcode"]
-                                                ] : cubit.Products[barcode_controller.text]?["barcode"]}',
+                                              'Barcode: ${isBarcode_scanner ? cubit.Products[barcode_scanner]!["barcode"] : cubit.Products[barcode_controller.text]!["barcode"]}',
                                               style: TextStyle(
                                                 fontSize: 15.0,
                                                 color: Colors.white,
@@ -361,4 +354,9 @@ Color ChooseToastColor(ToastStates state) {
       break;
   }
   return color;
+}
+
+String colorToHex(Color color) {
+  String hex = color.value.toRadixString(16);
+  return '#${hex.substring(2)}';
 }
