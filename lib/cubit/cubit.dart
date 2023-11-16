@@ -18,7 +18,7 @@ class MasryCubit extends Cubit<MasryStates> {
     // Read the JSON file
     final jsonFile = await rootBundle.loadString('assets/files/$jsonFileName');
     final jsonData = json.decode(jsonFile);
-    print(jsonData);
+    // print(jsonData);
     // Insert data into the database
     await db.transaction((txn) async {
       for (final product in jsonData) {
@@ -96,7 +96,7 @@ class MasryCubit extends Cubit<MasryStates> {
       value.forEach((element) {
         Products[element["barcode"]] = element;
       });
-      print(Products);
+      // print(Products);
       emit(MasryGetDatabaseState());
     });
   }
