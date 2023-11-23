@@ -30,6 +30,9 @@ class _HomePageState extends State<HomePage> {
         {
           MasryCubit.get(context).insertDataFromJSON('product.json');
         }
+        if(state is MasryDeleteDatabaseState){
+          isWrite = false;
+        }
       },
       builder: (context, state) {
         var cubit = MasryCubit.get(context);
@@ -65,6 +68,7 @@ class _HomePageState extends State<HomePage> {
                               if (cubit.Products.containsKey(
                                   barcode_controller.text)) {
                                 isBarcode = true;
+                                isBarcode_scanner = false;
                               } else {
                                 isBarcode = false;
                               }
@@ -80,6 +84,7 @@ class _HomePageState extends State<HomePage> {
                               if (cubit.Products.containsKey(
                                   barcode_controller.text)) {
                                 isBarcode = true;
+                                isBarcode_scanner = false;
                               } else {
                                 isBarcode = false;
                               }
@@ -140,10 +145,15 @@ class _HomePageState extends State<HomePage> {
                                     barcode_scanner)) {
                                   isBarcode_scanner = true;
                                   isBarcode = true;
+                                  barcode_controller.text = "";
                                 } else {
                                   isBarcode_scanner = false;
                                   isBarcode = false;
                                 }
+                              }
+                              else{
+                                isBarcode_scanner = false;
+                                isBarcode = false;
                               }
                             });
                           },

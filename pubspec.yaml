@@ -48,6 +48,7 @@ dependencies:
   carousel_slider: ^4.2.1
   simple_barcode_scanner: ^0.0.8
   path: ^1.8.3
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:
