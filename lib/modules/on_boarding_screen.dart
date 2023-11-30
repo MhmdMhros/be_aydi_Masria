@@ -1,360 +1,138 @@
+import 'package:be_aydi_masria/layouts/homepage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
+class BeAydiMasria extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _BeAydiMasriaState createState() => _BeAydiMasriaState();
 }
 
-class _MyAppState extends State<MyApp> {
-  late final _ratingController;
-  late double _rating;
-
-  double _userRating = 3.0;
-  int _ratingBarMode = 1;
-  double _initialRating = 2.0;
-  bool _isRTLMode = false;
-  bool _isVertical = false;
-
-  IconData? _selectedIcon;
+class _BeAydiMasriaState extends State<BeAydiMasria> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  List<Color> colors = [Colors.white, Colors.red, Colors.black]; // Add your colors here
+  int colorIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _ratingController = TextEditingController(text: '3.0');
-    _rating = _initialRating;
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 3),
+    );
+
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _controller.forward().then((_) {
+      // After animation completes, delay for some time and navigate to another page
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      });
+    });
+
+    // Listen to animation changes
+    _animation.addListener(() {
+      if (_animation.isCompleted) {
+        // Change color after each completion
+        colorIndex = (colorIndex + 1) % colors.length;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-        appBarTheme: AppBarTheme(
-          titleTextStyle: Theme.of(context)
-              .textTheme
-              .headline6
-              ?.copyWith(color: Colors.white),
-        ),
-      ),
-      home: Builder(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: Text('Flutter Rating Bar'),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.settings),
-                color: Colors.white,
-                onPressed: () async {
-                  _selectedIcon = await showDialog<IconData>(
-                    context: context,
-                    builder: (context) => IconAlert(),
-                  );
-                  _ratingBarMode = 1;
-                  setState(() {});
-                },
-              ),
-            ],
-          ),
-          body: Directionality(
-            textDirection: _isRTLMode ? TextDirection.rtl : TextDirection.ltr,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  SizedBox(
-                    height: 40.0,
-                  ),
-                  _heading('Rating Bar'),
-                  _ratingBar(_ratingBarMode),
-                  SizedBox(height: 20.0),
-                  Text(
-                    'Rating: $_rating',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 40.0),
-                  _heading('Rating Indicator'),
-                  RatingBarIndicator(
-                    rating: _userRating,
-                    itemBuilder: (context, index) => Icon(
-                      _selectedIcon ?? Icons.star,
-                      color: Colors.amber,
+    return Scaffold(
+      backgroundColor: Color(0xFF121212),
+      body: Center(
+        child: StaggeredAnimationBuilder(
+          animation: _animation,
+          builder: (context, child, value) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Your logo widget here
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, // Border color
+                      width: 2.0, // Border width
                     ),
-                    itemCount: 5,
-                    itemSize: 50.0,
-                    unratedColor: Colors.amber.withAlpha(50),
-                    direction: _isVertical ? Axis.vertical : Axis.horizontal,
+                    borderRadius: BorderRadius.circular(12.0), // Border radius
                   ),
-                  SizedBox(height: 20.0),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextFormField(
-                      controller: _ratingController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter rating',
-                        labelText: 'Enter rating',
-                        suffixIcon: MaterialButton(
-                          onPressed: () {
-                            _userRating =
-                                double.parse(_ratingController.text ?? '0.0');
-                            setState(() {});
-                          },
-                          child: Text('Rate'),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0), // Clip rounded corners
+                    child: Image.asset(
+                      'assets/images/logo.jpg', // Replace with your asset path
+                      width: 230.0,
+                      height: 200.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30), // Add some space between logo and text
+                Transform.scale(
+                  scale: (1 - value) + 0.8,
+                  child: Transform.rotate(
+                    angle: (1 - value) * 0.3,
+                    child: FadeTransition(
+                      opacity: _animation.drive(
+                        Tween<double>(
+                          begin: 0,
+                          end: 1,
+                        ),
+                      ),
+                      child: Text(
+                        'بأيدي مصرية',
+                        style: TextStyle(
+                          fontSize: 58,
+                          fontWeight: FontWeight.bold,
+                          color: colors[colorIndex],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 40.0),
-                  _heading('Scrollable Rating Indicator'),
-                  RatingBarIndicator(
-                    rating: 8.2,
-                    itemCount: 20,
-                    itemSize: 30.0,
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  Text(
-                    'Rating Bar Modes',
-                    style: TextStyle(fontWeight: FontWeight.w300),
-                  ),
-                  Row(
-                    children: [
-                      _radio(1),
-                      _radio(2),
-                      _radio(3),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Switch to Vertical Bar',
-                        style: TextStyle(fontWeight: FontWeight.w300),
-                      ),
-                      Switch(
-                        value: _isVertical,
-                        onChanged: (value) {
-                          setState(() {
-                            _isVertical = value;
-                          });
-                        },
-                        activeColor: Colors.amber,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Switch to RTL Mode',
-                        style: TextStyle(fontWeight: FontWeight.w300),
-                      ),
-                      Switch(
-                        value: _isRTLMode,
-                        onChanged: (value) {
-                          setState(() {
-                            _isRTLMode = value;
-                          });
-                        },
-                        activeColor: Colors.amber,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _radio(int value) {
-    return Expanded(
-      child: RadioListTile<int>(
-        value: value,
-        groupValue: _ratingBarMode,
-        dense: true,
-        title: Text(
-          'Mode $value',
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 12.0,
-          ),
-        ),
-        onChanged: (value) {
-          setState(() {
-            _ratingBarMode = value!;
-          });
-        },
-      ),
-    );
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
-
-  Widget _ratingBar(int mode) {
-    switch (mode) {
-      case 1:
-        return RatingBar.builder(
-          initialRating: _initialRating,
-          minRating: 1,
-          direction: _isVertical ? Axis.vertical : Axis.horizontal,
-          allowHalfRating: true,
-          unratedColor: Colors.amber.withAlpha(50),
-          itemCount: 5,
-          itemSize: 50.0,
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => Icon(
-            _selectedIcon ?? Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) {
-            setState(() {
-              _rating = rating;
-            });
-          },
-          updateOnDrag: true,
-        );
-      case 2:
-        return RatingBar(
-          initialRating: _initialRating,
-          direction: _isVertical ? Axis.vertical : Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          ratingWidget: RatingWidget(
-            full: _image('assets/heart.png'),
-            half: _image('assets/heart_half.png'),
-            empty: _image('assets/heart_border.png'),
-          ),
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          onRatingUpdate: (rating) {
-            setState(() {
-              _rating = rating;
-            });
-          },
-          updateOnDrag: true,
-        );
-      case 3:
-        return RatingBar.builder(
-          initialRating: _initialRating,
-          direction: _isVertical ? Axis.vertical : Axis.horizontal,
-          itemCount: 5,
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, index) {
-            switch (index) {
-              case 0:
-                return Icon(
-                  Icons.sentiment_very_dissatisfied,
-                  color: Colors.red,
-                );
-              case 1:
-                return Icon(
-                  Icons.sentiment_dissatisfied,
-                  color: Colors.redAccent,
-                );
-              case 2:
-                return Icon(
-                  Icons.sentiment_neutral,
-                  color: Colors.amber,
-                );
-              case 3:
-                return Icon(
-                  Icons.sentiment_satisfied,
-                  color: Colors.lightGreen,
-                );
-              case 4:
-                return Icon(
-                  Icons.sentiment_very_satisfied,
-                  color: Colors.green,
-                );
-              default:
-                return Container();
-            }
-          },
-          onRatingUpdate: (rating) {
-            setState(() {
-              _rating = rating;
-            });
-          },
-          updateOnDrag: true,
-        );
-      default:
-        return Container();
-    }
-  }
-
-  Widget _image(String asset) {
-    return Image.asset(
-      asset,
-      height: 30.0,
-      width: 30.0,
-      color: Colors.amber,
-    );
-  }
-
-  Widget _heading(String text) => Column(
-    children: [
-      Text(
-        text,
-        style: TextStyle(
-          fontWeight: FontWeight.w300,
-          fontSize: 24.0,
-        ),
-      ),
-      SizedBox(
-        height: 20.0,
-      ),
-    ],
-  );
 }
 
-class IconAlert extends StatelessWidget {
+class StaggeredAnimationBuilder extends StatelessWidget {
+  final Animation<double> animation;
+  final Widget Function(BuildContext, Widget?, double) builder;
+
+  StaggeredAnimationBuilder({
+    required this.animation,
+    required this.builder,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        'Select Icon',
-        style: TextStyle(
-          fontWeight: FontWeight.w300,
-        ),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      titlePadding: EdgeInsets.all(12.0),
-      contentPadding: EdgeInsets.all(0),
-      content: Wrap(
-        children: [
-          _iconButton(context, Icons.home),
-          _iconButton(context, Icons.airplanemode_active),
-          _iconButton(context, Icons.euro_symbol),
-          _iconButton(context, Icons.beach_access),
-          _iconButton(context, Icons.attach_money),
-          _iconButton(context, Icons.music_note),
-          _iconButton(context, Icons.android),
-          _iconButton(context, Icons.toys),
-          _iconButton(context, Icons.language),
-          _iconButton(context, Icons.landscape),
-          _iconButton(context, Icons.ac_unit),
-          _iconButton(context, Icons.star),
-        ],
-      ),
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, child) {
+        return builder(context, child, animation.value);
+      },
     );
   }
-
-  Widget _iconButton(BuildContext context, IconData icon) => IconButton(
-    icon: Icon(icon),
-    onPressed: () => Navigator.pop(context, icon),
-    splashColor: Colors.amberAccent,
-    color: Colors.amber,
-  );
 }
