@@ -2,9 +2,9 @@
 
 import 'package:be_aydi_masria/cubit/cubit.dart';
 import 'package:be_aydi_masria/cubit/state.dart';
-import 'package:be_aydi_masria/modules/admin_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       CircleAvatar(
                         radius: 25.0,
-                        backgroundColor: Color(0xFF2196F3),
+                        backgroundColor: Colors.grey[800],
                         child: IconButton(
                           icon: Icon(
                             Icons.camera_alt,
@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                   ? Center(
                                       child: Container(
                                         width: double.infinity,
-                                        height: 350.0,
+                                        height: MediaQuery.of(context).size.width,
                                         padding: EdgeInsets.all(10.0),
                                         decoration: BoxDecoration(
                                           color: Color(0xFF303030),
@@ -177,91 +177,144 @@ class _HomePageState extends State<HomePage> {
                                             width: 1.0,
                                           ),
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: double.infinity,
-                                              height: 100.0,
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[800],
-                                                borderRadius:
-                                                    BorderRadius.circular(16.0),
-                                                border: Border.all(
-                                                  color: Colors.blue,
-                                                  width: 0.50,
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                width: double.infinity,
+                                                height: 80.0,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[800],
+                                                  borderRadius:
+                                                      BorderRadius.circular(16.0),
+                                                  border: Border.all(
+                                                    color: Colors.blue,
+                                                    width: 0.50,
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                        "مصرية ",
+                                                        style: TextStyle(
+                                                          fontSize: 40,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "بأيدي",
+                                                        style: TextStyle(
+                                                          fontSize: 40,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                              child: Center(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      "رية",
-                                                      style: TextStyle(
-                                                        fontSize: 40,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "مص",
-                                                      style: TextStyle(
-                                                        fontSize: 40,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "بأيدي",
-                                                      style: TextStyle(
-                                                        fontSize: 40,
-                                                        color: Colors.red,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Center(
+                                                child: Text(
+                                                  'اسم المنتج',
+                                                  style: TextStyle(
+                                                    fontSize: 17.0,
+                                                    color: Colors.red,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 40,
-                                            ),
-                                            Text(
-                                              'Name: ${isBarcode_scanner ? cubit.Products[barcode_scanner]!["name"] : cubit.Products[barcode_controller.text]!["name"]}',
-                                              style: TextStyle(
-                                                fontSize: 15.0,
-                                                color: Colors.white,
+                                              Text(
+                                                '${isBarcode_scanner ? cubit.Products[barcode_scanner]!["name"] : cubit.Products[barcode_controller.text]!["name"]}',
+                                                style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: Colors.white,
+                                                ),
                                               ),
-                                            ),
-                                            Divider(
-                                              color: Colors.red,
-                                              thickness: 1.0,
-                                              height: 15.0,
-                                              indent: 40,
-                                              endIndent: 40,
-                                            ),
-                                            Divider(
-                                              color: Colors.white,
-                                              thickness: 1.0,
-                                              height: 5.0,
-                                              indent: 40,
-                                              endIndent: 40,
-                                            ),
-                                            Divider(
-                                              color: Colors.black,
-                                              thickness: 1.0,
-                                              height: 15.0,
-                                              indent: 40,
-                                              endIndent: 40,
-                                            ),
-                                            Text(
-                                              'Barcode: ${isBarcode_scanner ? cubit.Products[barcode_scanner]!["barcode"] : cubit.Products[barcode_controller.text]!["barcode"]}',
-                                              style: TextStyle(
-                                                fontSize: 15.0,
-                                                color: Colors.white,
+                                              Divider(
+                                                color: Colors.red,
+                                                thickness: 3.0,
+                                                height: 5.0,
+                                                indent: 40,
+                                                endIndent: 40,
                                               ),
-                                            ),
-                                          ],
+                                              Center(
+                                                child: Text(
+                                                  'باركود المنتج',
+                                                  style: TextStyle(
+                                                    fontSize: 17.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                '${isBarcode_scanner ? cubit.Products[barcode_scanner]!["barcode"] : cubit.Products[barcode_controller.text]!["barcode"]}',
+                                                style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Divider(
+                                                color: Colors.white,
+                                                thickness: 3.0,
+                                                height: 5.0,
+                                                indent: 40,
+                                                endIndent: 40,
+                                              ),
+                                              Center(
+                                                child: Text(
+                                                  'وصف المنتج',
+                                                  style: TextStyle(
+                                                    fontSize: 17.0,
+                                                    color: Colors.yellow,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                '${isBarcode_scanner ? cubit.Products[barcode_scanner]!["description"] : cubit.Products[barcode_controller.text]!["description"]}',
+                                                style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Divider(
+                                                color: Colors.black,
+                                                thickness: 3.0,
+                                                height: 5.0,
+                                                indent: 40,
+                                                endIndent: 40,
+                                              ),
+                                              Center(
+                                                child: Text(
+                                                  'تقييم المنتج',
+                                                  style: TextStyle(
+                                                    fontSize: 17.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              RatingBar.builder(
+                                                initialRating: isBarcode_scanner ? cubit.Products[barcode_scanner]!["rate"] : cubit.Products[barcode_controller.text]!["rate"],
+                                                minRating: 1,
+                                                direction: Axis.horizontal,
+                                                allowHalfRating: true,
+                                                itemCount: 5,
+                                                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                itemBuilder: (context, _) => Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
+                                                onRatingUpdate: (rating) {
+                                                },
+                                              ),
+
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     )

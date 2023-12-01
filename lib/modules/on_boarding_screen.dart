@@ -1,4 +1,5 @@
 import 'package:be_aydi_masria/layouts/homepage.dart';
+import 'package:be_aydi_masria/shared/components.dart';
 import 'package:flutter/material.dart';
 
 class BeAydiMasria extends StatefulWidget {
@@ -31,12 +32,7 @@ class _BeAydiMasriaState extends State<BeAydiMasria> with TickerProviderStateMix
     _controller.forward().then((_) {
       // After animation completes, delay for some time and navigate to another page
       Future.delayed(Duration(seconds: 2), () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(),
-          ),
-        );
+        navigateAndFinish(context, HomePage());
       });
     });
 
@@ -91,12 +87,14 @@ class _BeAydiMasriaState extends State<BeAydiMasria> with TickerProviderStateMix
                           end: 1,
                         ),
                       ),
-                      child: Text(
-                        'بأيدي مصرية',
-                        style: TextStyle(
-                          fontSize: 58,
-                          fontWeight: FontWeight.bold,
-                          color: colors[colorIndex],
+                      child: Center(
+                        child: Text(
+                          'بأيدي مصرية',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.14, // Adjust the factor as needed,
+                            fontWeight: FontWeight.bold,
+                            color: colors[colorIndex],
+                          ),
                         ),
                       ),
                     ),
