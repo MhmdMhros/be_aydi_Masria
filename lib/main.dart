@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => MasryCubit()..createdatabase(),),
+          create: (context) => MasryCubit()..insertDataFromJSON('product.json'),),
       ],
       child: BlocConsumer<MasryCubit,MasryStates>(
         listener: (context,state){},

@@ -25,15 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MasryCubit, MasryStates>(
-      listener: (context, state) {
-        if (state is MasryCreateDatabaseState)
-        {
-          MasryCubit.get(context).insertDataFromJSON('product.json');
-        }
-        if(state is MasryDeleteDatabaseState){
-          isWrite = false;
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = MasryCubit.get(context);
         return Scaffold(
@@ -132,7 +124,9 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      SimpleBarcodeScannerPage(lineColor: colorToHex(Colors.blue),),
+                                      SimpleBarcodeScannerPage(
+                                    lineColor: colorToHex(Colors.blue),
+                                  ),
                                 ));
                             setState(() {
                               isWrite = true;
@@ -150,8 +144,7 @@ class _HomePageState extends State<HomePage> {
                                   isBarcode_scanner = false;
                                   isBarcode = false;
                                 }
-                              }
-                              else{
+                              } else {
                                 isBarcode_scanner = false;
                                 isBarcode = false;
                               }
@@ -310,22 +303,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AdminProduct(),
-                ),
-              );
-            },
-            backgroundColor: Color(0xFF2196F3),
-            child: Icon(
-              Icons.edit,
-              size: 30.0,
-              color: Colors.white,
             ),
           ),
         );
