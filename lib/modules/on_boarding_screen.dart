@@ -68,7 +68,7 @@ class _BeAydiMasriaState extends State<BeAydiMasria> with TickerProviderStateMix
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0), // Clip rounded corners
                     child: Image.asset(
-                      'assets/images/logo.jpg', // Replace with your asset path
+                      'assets/images/ic_launcher.png', // Replace with your asset path
                       width: 230.0,
                       height: 200.0,
                       fit: BoxFit.cover,

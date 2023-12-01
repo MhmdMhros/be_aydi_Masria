@@ -37,7 +37,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   sqflite: ^2.3.0
   hexcolor: ^3.0.1
-  fluttertoast: ^8.2.2
   smooth_page_indicator: ^1.1.0
   intl: ^0.18.1
   bloc: ^8.1.2
@@ -63,7 +62,7 @@ dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
 
 flutter_icons:
-  image_path: "assets/images/logo.jpg"
+  image_path: "assets/images/ic_launcher.png"
   android: true
   ios: true
 
