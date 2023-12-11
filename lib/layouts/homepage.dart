@@ -297,19 +297,17 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                               ),
-                                              RatingBar.builder(
-                                                initialRating: isBarcode_scanner ? cubit.Products[barcode_scanner]!["rate"] : cubit.Products[barcode_controller.text]!["rate"],
-                                                minRating: 1,
-                                                direction: Axis.horizontal,
-                                                allowHalfRating: true,
-                                                itemCount: 5,
-                                                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                itemBuilder: (context, _) => Icon(
+                                              RatingBarIndicator(
+                                                rating: isBarcode_scanner
+                                                    ? cubit.Products[barcode_scanner]!["rate"]
+                                                    : cubit.Products[barcode_controller.text]!["rate"],
+                                                itemBuilder: (context, index) => Icon(
                                                   Icons.star,
-                                                  color: Colors.yellow,
+                                                  color: Colors.amber,
                                                 ),
-                                                onRatingUpdate: (rating) {
-                                                },
+                                                itemCount: 5,
+                                                itemSize: MediaQuery.of(context).size.width * 0.118,
+                                                direction: Axis.horizontal,
                                               ),
 
                                             ],
